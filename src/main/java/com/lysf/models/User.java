@@ -9,23 +9,21 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-
 @Entity
 @Table(name = "users")
 public class User {
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private UUID userId;
-	
+
 	private String name;
-	
+
 	private String email;
-	
+
 	private String password;
-	
+
 	private String address;
 
 	public String getName() {
@@ -63,8 +61,5 @@ public class User {
 	public UUID getUserId() {
 		return userId;
 	}
-	
-	
-	
-	
+
 }

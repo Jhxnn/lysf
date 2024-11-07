@@ -20,17 +20,17 @@ public class Account {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
-	private UUID idAccount;	
-	
+	private UUID idAccount;
+
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
-	
+
 	private double balance;
-	
+
 	private AccountType type;
-	
+
 	private StatusAccount status;
-	
+
 	public User getUser() {
 		return user;
 	}
@@ -66,7 +66,5 @@ public class Account {
 	public UUID getIdAccount() {
 		return idAccount;
 	}
-	
-	
-	
+
 }
