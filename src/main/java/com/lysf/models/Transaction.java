@@ -19,9 +19,9 @@ public class Transaction {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
-	private double value;
-	
 	private UUID transactionId;
+	
+	private double value;
 	
 	private StatusTransaction status;
 	
