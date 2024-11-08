@@ -13,6 +13,8 @@ import com.lysf.dtos.TransactionDto;
 import com.lysf.models.PaymentMethod;
 import com.lysf.models.Transaction;
 import com.lysf.models.enums.PaymentType;
+import com.lysf.models.enums.StatusTransaction;
+import com.lysf.repositories.AccountRepository;
 import com.lysf.repositories.TransactionRepository;
 
 @Service
@@ -32,6 +34,9 @@ public class TransactionService {
 
 	@Autowired
 	PixService pixService;
+	
+	@Autowired
+	AccountRepository accountRepository;
 
 	public Transaction findById(UUID id) {
 		return transactionRepository.findById(id)
@@ -42,33 +47,54 @@ public class TransactionService {
 		return transactionRepository.findAll();
 	}
 
-	public Transaction createTransaction(UUID id, 
-			PaymentType payType, 
-			TransactionDto transactionDto,
-			CardDto cardDto,PixDto pixDto){
+	public Transaction createTransaction(UUID id, PaymentType payType, TransactionDto transactionDto, CardDto cardDto,
+			PixDto pixDto) {
 		var account = accountService.findById(id);
+		if (account.getBalance() < transactionDto.value()) {
+			return null;
+		}
 		if (payType == PaymentType.CARD) {
 			if (cardService.validation(cardDto) == true) {
 				var transaction = new Transaction();
 				BeanUtils.copyProperties(transactionDto, transaction);
+				account.setBalance(account.getBalance() - transactionDto.value());
 				return transactionRepository.save(transaction);
 			} else {
-				new RuntimeException("cannot be validated");
-				return null;
-			}
-		}
-		if(payType == PaymentType.PIX) {
-			if(pixService.validationPix(pixDto) == true) {
+
 				var transaction = new Transaction();
 				BeanUtils.copyProperties(transactionDto, transaction);
-				return transactionRepository.save(transaction); 
-		 }
-		 
-		}		
+				transaction.setStatus(StatusTransaction.CANCELED);
+				return transactionRepository.save(transaction);
+			}
+		}
+		if (payType == PaymentType.PIX) {
+			if (pixService.validationPix(pixDto) == true) {
+				var transaction = new Transaction();
+				BeanUtils.copyProperties(transactionDto, transaction);
+				account.setBalance(account.getBalance() - transactionDto.value());
+				return transactionRepository.save(transaction);
+
+			} else {
+
+				var transaction = new Transaction();
+				BeanUtils.copyProperties(transactionDto, transaction);
+				transaction.setStatus(StatusTransaction.CANCELED);
+				return transactionRepository.save(transaction);
+			}
+
+		}
 		return null;
 
 	}
-
+	public Transaction refund(UUID transactionId) {
+		var transaction = findById(transactionId);
+		var account = transaction.getAccount();
+		account.setBalance(account.getBalance() + transaction.getValue());
+		
+		transaction.setStatus(StatusTransaction.REFUND);
+		accountRepository.save(account);
+		return transactionRepository.save(transaction);
+	}
 	public Transaction updateTransaction(UUID id, TransactionDto transactionDto) {
 		var transaction = findById(id);
 		if (transactionDto.accountId() != null) {
@@ -83,9 +109,7 @@ public class TransactionService {
 			var method = paymentMethodService.findById(id);
 			transaction.setMethod(method);
 		}
-		if (transactionDto.status() != null) {
-			transaction.setStatus(transactionDto.status());
-		}
+		
 		if (transactionDto.value() != null) {
 			transaction.setValue(transactionDto.value());
 		}

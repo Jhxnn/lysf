@@ -48,6 +48,11 @@ public class TransactionController {
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(transactionService.createTransaction(id, payType, transactionDto, cardDto, pixDto));
 	}
+	
+	@PutMapping("/refund/{id}")
+	ResponseEntity<Transaction> refund(@PathVariable(name = "id")UUID id){
+		return ResponseEntity.status(HttpStatus.CREATED).body(transactionService.refund(id));
+	}
 	@PutMapping("/{id}")
 	ResponseEntity<Transaction> updateTransaction(@PathVariable(name = "id")UUID id,
 			@RequestBody TransactionDto transactionDto){

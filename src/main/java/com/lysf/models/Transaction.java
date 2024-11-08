@@ -1,4 +1,4 @@
-	package com.lysf.models;
+package com.lysf.models;
 
 import java.time.LocalDate;
 import java.util.UUID;

@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import com.lysf.models.enums.StatusTransaction;
 
-public record TransactionDto(Double value,StatusTransaction status,UUID methodId,LocalDate date,
+public record TransactionDto(Double value,UUID methodId,LocalDate date,
 		UUID accountId) {
 
 }
