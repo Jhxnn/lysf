@@ -1,5 +1,7 @@
 package com.lysf.dtos;
 
-public record OrderDto() {
+import java.util.UUID;
+
+public record OrderDto(Double value, UUID methodId, String description) {
 
 }

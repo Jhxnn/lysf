@@ -33,7 +33,7 @@ public class PaymentHistory {
 	
 	private StatusTransaction status;
 	
-	private double amount;
+	private Double amount;
 	
 	@JoinColumn(name = "transaction_id", referencedColumnName = "id")
 	private Transaction transaction;
@@ -70,11 +70,11 @@ public class PaymentHistory {
 		this.status = status;
 	}
 
-	public double getAmount() {
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 

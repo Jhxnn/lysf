@@ -21,7 +21,7 @@ public class Order {
 	@Column(name = "id")
 	private UUID orderId;
 	
-	private double value;
+	private Double value;
 	
 	@JoinColumn(name = "method_id", referencedColumnName = "id")
 	private PaymentMethod method;
@@ -54,11 +54,11 @@ public class Order {
 		this.orderId = orderId;
 	}
 
-	public double getValue() {
+	public Double getValue() {
 		return value;
 	}
 
-	public void setValue(double value) {
+	public void setValue(Double value) {
 		this.value = value;
 	}
 

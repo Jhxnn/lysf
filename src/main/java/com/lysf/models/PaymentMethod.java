@@ -43,6 +43,16 @@ public class PaymentMethod {
 		return details;
 	}
 
+	public Account getAccount() {
+		return account;
+	}
+
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+
 	public void setDetails(String details) {
 		this.details = details;
 	}

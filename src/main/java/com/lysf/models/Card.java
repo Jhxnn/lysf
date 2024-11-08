@@ -20,21 +20,22 @@ public class Card {
 	@Column(name = "id")
 	private UUID cardId;
 	
-	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	private User user;
+	@JoinColumn(name = "account_id", referencedColumnName = "id")
+	private Account account;
 	
-	private int CVV;
+	private Integer CVV;
 	
 	private String securityCode;
 	
 	private LocalDate validDate;
+	
 
-	public User getUser() {
-		return user;
+	public Account getAccount() {
+		return account;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public int getCVV() {

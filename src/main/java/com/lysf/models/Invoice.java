@@ -25,7 +25,7 @@ public class Invoice {
 	@JoinColumn(name = "account_id", referencedColumnName = "id")
 	private Account account;
 	
-	private double amount;
+	private Double amount;
 	
 	private StatusInvoice status;
 	
@@ -43,11 +43,11 @@ public class Invoice {
 		this.account = account;
 	}
 
-	public double getAmount() {
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 

@@ -21,7 +21,7 @@ public class Transaction {
 	@Column(name="id")
 	private UUID transactionId;
 	
-	private double value;
+	private Double value;
 	
 	private StatusTransaction status;
 	
@@ -33,11 +33,11 @@ public class Transaction {
 	@JoinColumn(name = "account_id", referencedColumnName = "id")
 	private Account account;
 
-	public double getValue() {
+	public Double getValue() {
 		return value;
 	}
 
-	public void setValue(double value) {
+	public void setValue(Double value) {
 		this.value = value;
 	}
 
@@ -45,9 +45,6 @@ public class Transaction {
 		return transactionId;
 	}
 
-	public void setTransactionId(UUID transactionId) {
-		this.transactionId = transactionId;
-	}
 
 	public StatusTransaction getStatus() {
 		return status;
