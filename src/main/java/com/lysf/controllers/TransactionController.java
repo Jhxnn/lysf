@@ -35,10 +35,10 @@ public class TransactionController {
 	public ResponseEntity<List<Transaction>> findAll(){
 		return ResponseEntity.status(HttpStatus.OK).body(transactionService.findAll());
 	}
-	@PostMapping
+	/*@PostMapping
 	public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionDto transactionDto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(transactionService.createTransaction(transactionDto));
-	}
+	}*/
 	@PutMapping("/{id}")
 	ResponseEntity<Transaction> updateTransaction(@PathVariable(name = "id")UUID id,
 			@RequestBody TransactionDto transactionDto){

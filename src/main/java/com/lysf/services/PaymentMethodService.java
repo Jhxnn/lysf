@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lysf.dtos.PaymentMethodDto;
+import com.lysf.models.Account;
 import com.lysf.models.PaymentMethod;
 import com.lysf.repositories.PaymentMethodRepository;
 
@@ -26,6 +27,9 @@ public class PaymentMethodService {
 
 	public List<PaymentMethod> findAll() {
 		return payMethodRepository.findAll();
+	}
+	public List<PaymentMethod> findByAccount(Account account){
+		return payMethodRepository.findByAccount(account);
 	}
 
 	public PaymentMethod createMethod(PaymentMethodDto payMethodDto) {

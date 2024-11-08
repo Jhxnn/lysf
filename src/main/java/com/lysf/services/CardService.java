@@ -34,21 +34,30 @@ public class CardService {
 		return cardRepository.save(card);
 	}
 
+	public boolean validation(CardDto cardDto) {
+		if (cardRepository.findByCVV(cardDto.CVC()) != null
+				&& cardRepository.findBySecurityCode(cardDto.securityCode()) != null) {
+			
+			return true;
+		}
+		return false;
+	}
+
 	public Card updateCard(UUID id, CardDto cardDto) {
 		var card = findByid(id);
 		if (cardDto.accountId() != null) {
 			var account = accountService.findById(cardDto.accountId());
 			card.setAccount(account);
 		}
-		if(cardDto.CVC() != null) {
+		if (cardDto.CVC() != null) {
 			card.setCVV(cardDto.CVC());
 		}
-		if(cardDto.validDate() != null) {
+		if (cardDto.validDate() != null) {
 			card.setValidDate(cardDto.validDate());
 		}
 		return cardRepository.save(card);
 	}
-	
+
 	public void deleteCard(UUID id) {
 		var card = findByid(id);
 		cardRepository.delete(card);
