@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.lysf.dtos.CardDto;
+import com.lysf.dtos.PixDto;
 import com.lysf.dtos.TransactionDto;
 import com.lysf.models.Transaction;
+import com.lysf.models.enums.PaymentType;
 import com.lysf.services.TransactionService;
 
 @RestController
@@ -35,10 +39,15 @@ public class TransactionController {
 	public ResponseEntity<List<Transaction>> findAll(){
 		return ResponseEntity.status(HttpStatus.OK).body(transactionService.findAll());
 	}
-	/*@PostMapping
-	public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionDto transactionDto){
-		return ResponseEntity.status(HttpStatus.CREATED).body(transactionService.createTransaction(transactionDto));
-	}*/
+	@PostMapping("/{accountId}/{payType}")
+	public ResponseEntity<Transaction> createTransaction(@PathVariable(name = "id")UUID id, 
+			@PathVariable(name = "type") PaymentType payType,
+			@RequestBody CardDto cardDto,
+			@RequestBody TransactionDto transactionDto,
+			@RequestBody PixDto pixDto){
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(transactionService.createTransaction(id, payType, transactionDto, cardDto, pixDto));
+	}
 	@PutMapping("/{id}")
 	ResponseEntity<Transaction> updateTransaction(@PathVariable(name = "id")UUID id,
 			@RequestBody TransactionDto transactionDto){

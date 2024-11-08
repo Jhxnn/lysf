@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lysf.dtos.CardDto;
+import com.lysf.dtos.PixDto;
 import com.lysf.dtos.TransactionDto;
 import com.lysf.models.PaymentMethod;
 import com.lysf.models.Transaction;
@@ -29,6 +30,9 @@ public class TransactionService {
 	@Autowired
 	CardService cardService;
 
+	@Autowired
+	PixService pixService;
+
 	public Transaction findById(UUID id) {
 		return transactionRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("transaction cannot be found"));
@@ -38,7 +42,10 @@ public class TransactionService {
 		return transactionRepository.findAll();
 	}
 
-	public Transaction createTransaction(UUID id, PaymentType payType, TransactionDto transactionDto, CardDto cardDto) {
+	public Transaction createTransaction(UUID id, 
+			PaymentType payType, 
+			TransactionDto transactionDto,
+			CardDto cardDto,PixDto pixDto){
 		var account = accountService.findById(id);
 		if (payType == PaymentType.CARD) {
 			if (cardService.validation(cardDto) == true) {
@@ -50,9 +57,14 @@ public class TransactionService {
 				return null;
 			}
 		}
-		
-		/*terminar  de arrumar (verificar boleto, verificar, pix) */
-		
+		if(payType == PaymentType.PIX) {
+			if(pixService.validationPix(pixDto) == true) {
+				var transaction = new Transaction();
+				BeanUtils.copyProperties(transactionDto, transaction);
+				return transactionRepository.save(transaction); 
+		 }
+		 
+		}		
 		return null;
 
 	}

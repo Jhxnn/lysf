@@ -1,8 +1,6 @@
 package com.lysf.models.enums;
 
-public enum PaymentType {
-
-	
+public enum PaymentType {	
 	PIX,
 	BOLETO,
 	CARD,
