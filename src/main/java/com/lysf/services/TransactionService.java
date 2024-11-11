@@ -36,6 +36,9 @@ public class TransactionService {
 	PixService pixService;
 	
 	@Autowired
+	EmailService emailService;
+	
+	@Autowired
 	AccountRepository accountRepository;
 
 	public Transaction findById(UUID id) {
@@ -58,6 +61,8 @@ public class TransactionService {
 				var transaction = new Transaction();
 				BeanUtils.copyProperties(transactionDto, transaction);
 				account.setBalance(account.getBalance() - transactionDto.value());
+				emailService.sendTransactionEmail(account.getUser().getEmail(), "Transaction","Transaction with a value of " 
+				+ transactionDto.value() + "R$" + ", on your card");
 				return transactionRepository.save(transaction);
 			} else {
 
@@ -72,6 +77,8 @@ public class TransactionService {
 				var transaction = new Transaction();
 				BeanUtils.copyProperties(transactionDto, transaction);
 				account.setBalance(account.getBalance() - transactionDto.value());
+				emailService.sendTransactionEmail(account.getUser().getEmail(), "Transaction","Transaction with a value of " 
+						+ transactionDto.value() + "R$" + ", with pix");
 				return transactionRepository.save(transaction);
 
 			} else {
@@ -90,9 +97,10 @@ public class TransactionService {
 		var transaction = findById(transactionId);
 		var account = transaction.getAccount();
 		account.setBalance(account.getBalance() + transaction.getValue());
-		
 		transaction.setStatus(StatusTransaction.REFUND);
 		accountRepository.save(account);
+		emailService.sendTransactionEmail(account.getUser().getEmail(), "Transaction refund","Transaction with a value of " 
+				+ transaction.getValue() + "R$" + ", was refunded");
 		return transactionRepository.save(transaction);
 	}
 	public Transaction updateTransaction(UUID id, TransactionDto transactionDto) {
