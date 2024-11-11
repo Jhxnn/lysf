@@ -1,4 +1,4 @@
-package com.lysf.models;
+	package com.lysf.models;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -34,6 +34,20 @@ public class Invoice {
 	
 	@Column(name = "issue_date")
 	private LocalDate issueDate;
+
+	
+	
+	public Invoice(Account account, Double amount, StatusInvoice status, LocalDate dueDate,
+			LocalDate issueDate) {
+		this.account = account;
+		this.amount = amount;
+		this.status = status;
+		this.dueDate = dueDate;
+		this.issueDate = issueDate;
+	}
+	
+	public Invoice() {
+	}
 
 	public Account getAccount() {
 		return account;

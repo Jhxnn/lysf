@@ -1,5 +1,6 @@
-package com.lysf.services;
+	package com.lysf.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +31,15 @@ public class InvoiceService {
 		var invoice = new Invoice();
 		BeanUtils.copyProperties(invoiceDto, invoice);
 		return invoiceRepository.save(invoice);
+	}
+	public Invoice findMonthlyInvoice(UUID accountId, LocalDate pastDate) {
+		if(invoiceRepository.findInvoicesByAccountAndDateRange(accountId, pastDate) != null) {
+			return invoiceRepository.findInvoicesByAccountAndDateRange(accountId, pastDate);
+		}
+		else {
+			return null;
+		}
+		
 	}
 	public Invoice updateInvoice(UUID id, InvoiceDto invoiceDto) {
 		var invoice = findById(id);

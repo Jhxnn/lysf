@@ -6,6 +6,6 @@ import java.util.UUID;
 import com.lysf.models.enums.StatusTransaction;
 
 public record TransactionDto(Double value,UUID methodId,LocalDate date,
-		UUID accountId) {
+		UUID accountId, boolean credit) {
 
 }
