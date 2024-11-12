@@ -18,6 +18,8 @@ import com.lysf.dtos.PixDto;
 import com.lysf.models.Pix;
 import com.lysf.services.PixService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/pix")
 public class PixController {
@@ -28,23 +30,28 @@ public class PixController {
 	
 
 	@GetMapping("/{id}")
+	@Operation(description = "Busca por ID")
 	public ResponseEntity<Pix> findById(@PathVariable(name = "id")UUID id){
 		return ResponseEntity.status(HttpStatus.OK).body(pixService.findById(id));
 	}
 	@GetMapping("/all")
+	@Operation(description = "Busca todos")
 	public ResponseEntity<List<Pix>> findAll(){
 		return ResponseEntity.status(HttpStatus.OK).body(pixService.findAll());
 	}
 	@PostMapping
+	@Operation(description = "Cria um pix")
 	public ResponseEntity<Pix> createPix(@RequestBody PixDto pixDto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(pixService.createPix(pixDto));
 	}
 	@PutMapping("/{id}")
+	@Operation(description = "Atualiza")
 	ResponseEntity<Pix> updatePix(@PathVariable(name = "id")UUID id,
 			@RequestBody PixDto pixDto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(pixService.updatePix(id, pixDto));
 	}
 	@DeleteMapping("/{id}")
+	@Operation(description = "Deleta")
 	ResponseEntity<Pix> deletePix(@PathVariable(name = "id")UUID id){
 		pixService.deletePix(id);
 		return ResponseEntity.noContent().build();

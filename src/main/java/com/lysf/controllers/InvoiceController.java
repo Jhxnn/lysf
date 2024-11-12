@@ -19,6 +19,8 @@ import com.lysf.dtos.InvoiceDto;
 import com.lysf.models.Invoice;
 import com.lysf.services.InvoiceService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 
 @RestController
 @RequestMapping("/invoice")
@@ -30,23 +32,28 @@ public class InvoiceController {
 	
 
 	@GetMapping("/{id}")
+	@Operation(description = "Busca por ID")
 	public ResponseEntity<Invoice> findById(@PathVariable(name = "id")UUID id){
 		return ResponseEntity.status(HttpStatus.OK).body(invoiceService.findById(id));
 	}
 	@GetMapping("/all")
+	@Operation(description = "Busca todos")
 	public ResponseEntity<List<Invoice>> findAll(){
 		return ResponseEntity.status(HttpStatus.OK).body(invoiceService.findAll());
 	}
 	@PostMapping
+	@Operation(description = "Cria uma fatura")
 	public ResponseEntity<Invoice> createInvoice(@RequestBody InvoiceDto invoiceDto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(invoiceService.createInvoice(invoiceDto));
 	}
 	@PutMapping("/{id}")
+	@Operation(description = "Atualiza uma fatura")
 	ResponseEntity<Invoice> updateInvoice(@PathVariable(name = "id")UUID id,
 			@RequestBody InvoiceDto invoiceDto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(invoiceService.updateInvoice(id, invoiceDto));
 	}
 	@DeleteMapping("/{id}")
+	@Operation(description = "Deleta uma fatura")
 	ResponseEntity<Invoice> deleteInvoice(@PathVariable(name = "id")UUID id){
 		invoiceService.deleteInvoice(id);
 		return ResponseEntity.noContent().build();

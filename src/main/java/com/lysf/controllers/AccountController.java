@@ -19,6 +19,8 @@ import com.lysf.dtos.AccountDto;
 import com.lysf.models.Account;
 import com.lysf.services.AccountService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/account")
 public class AccountController {
@@ -28,23 +30,28 @@ public class AccountController {
 	AccountService accountService;
 	
 	@GetMapping("/{id}")
+	@Operation(description = "Busca por id")
 	public ResponseEntity<Account> findById(@PathVariable(name = "id")UUID id){
 		return ResponseEntity.status(HttpStatus.OK).body(accountService.findById(id));
 	}
 	@GetMapping("/all")
+	@Operation(description = "Busca todos")
 	public ResponseEntity<List<Account>> findAll(){
 		return ResponseEntity.status(HttpStatus.OK).body(accountService.findAll());
 	}
 	@PostMapping
+	@Operation(description = "Cria a conta")
 	public ResponseEntity<Account> createAccount(@RequestBody AccountDto accountDto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(accountService.createAccount(accountDto));
 	}
 	@PutMapping("/{id}")
+	@Operation(description = "Atualiza a conta")
 	ResponseEntity<Account> updateAccount(@PathVariable(name = "id")UUID id,
 			@RequestBody AccountDto accountDto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(accountService.updateAccount(id, accountDto));
 	}
 	@DeleteMapping("/{id}")
+	@Operation(description = "Deleta a conta")
 	ResponseEntity<Account> deleteAccount(@PathVariable(name = "id")UUID id){
 		accountService.deleteAccount(id);
 		return ResponseEntity.noContent().build();

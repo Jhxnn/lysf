@@ -19,6 +19,8 @@ import com.lysf.dtos.CardDto;
 import com.lysf.models.Card;
 import com.lysf.services.CardService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/card")
 public class CardController {
@@ -28,23 +30,28 @@ public class CardController {
 	
 
 	@GetMapping("/{id}")
+	@Operation(description = "Busca por Id")
 	public ResponseEntity<Card> findById(@PathVariable(name = "id")UUID id){
 		return ResponseEntity.status(HttpStatus.OK).body(cardService.findByid(id));
 	}
 	@GetMapping("/all")
+	@Operation(description = "Busca todos")
 	public ResponseEntity<List<Card>> findAll(){
 		return ResponseEntity.status(HttpStatus.OK).body(cardService.findAll());
 	}
 	@PostMapping
+	@Operation(description = "Cria o cartão")
 	public ResponseEntity<Card> createCard(@RequestBody CardDto cardDto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(cardService.createCard(cardDto));
 	}
 	@PutMapping("/{id}")
+	@Operation(description = "Atualiza o cartão")
 	ResponseEntity<Card> updateCard(@PathVariable(name = "id")UUID id,
 			@RequestBody CardDto cardDto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(cardService.updateCard(id, cardDto));
 	}
 	@DeleteMapping("/{id}")
+	@Operation(description = "Deleta o cartão")
 	ResponseEntity<Card> deleteCard(@PathVariable(name = "id")UUID id){
 		cardService.deleteCard(id);
 		return ResponseEntity.noContent().build();

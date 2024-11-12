@@ -18,6 +18,8 @@ import com.lysf.dtos.UserDto;
 import com.lysf.models.User;
 import com.lysf.services.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -27,23 +29,28 @@ public class UserController {
 	
 
 	@GetMapping("/{id}")
+	@Operation(description = "Busca por ID")
 	public ResponseEntity<User> findById(@PathVariable(name = "id")UUID id){
 		return ResponseEntity.status(HttpStatus.OK).body(userService.findById(id));
 	}
 	@GetMapping("/all")
+	@Operation(description = "Busca todos")
 	public ResponseEntity<List<User>> findAll(){
 		return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
 	}
 	@PostMapping
+	@Operation(description = "Cria um usuario")
 	public ResponseEntity<User> createUser(@RequestBody UserDto userDto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userDto));
 	}
 	@PutMapping("/{id}")
+	@Operation(description = "atualiza usuario")
 	ResponseEntity<User> updateUser(@PathVariable(name = "id")UUID id,
 			@RequestBody UserDto userDto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.updateUser(id, userDto));
 	}
 	@DeleteMapping("/{id}")
+	@Operation(description = "deleta usuario")
 	ResponseEntity<User> deleteUser(@PathVariable(name = "id")UUID id){
 		userService.deleteUser(id);
 		return ResponseEntity.noContent().build();

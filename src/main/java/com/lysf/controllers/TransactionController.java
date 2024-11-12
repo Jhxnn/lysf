@@ -22,6 +22,8 @@ import com.lysf.models.Transaction;
 import com.lysf.models.enums.PaymentType;
 import com.lysf.services.TransactionService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/transaction")
 public class TransactionController {
@@ -32,14 +34,17 @@ public class TransactionController {
 	
 
 	@GetMapping("/{id}")
+	@Operation(description = "Busca transação por ID")
 	public ResponseEntity<Transaction> findById(@PathVariable(name = "id")UUID id){
 		return ResponseEntity.status(HttpStatus.OK).body(transactionService.findById(id));
 	}
 	@GetMapping("/all")
+	@Operation(description = "Busca todas as transações")
 	public ResponseEntity<List<Transaction>> findAll(){
 		return ResponseEntity.status(HttpStatus.OK).body(transactionService.findAll());
 	}
 	@PostMapping("/{accountId}/{payType}")
+	@Operation(description = "Realiza transação e salva no banco")
 	public ResponseEntity<Transaction> createTransaction(@PathVariable(name = "id")UUID id, 
 			@PathVariable(name = "type") PaymentType payType,
 			@RequestBody CardDto cardDto,
@@ -50,15 +55,18 @@ public class TransactionController {
 	}
 	
 	@PutMapping("/refund/{id}")
+	@Operation(description = "Reembolso")
 	ResponseEntity<Transaction> refund(@PathVariable(name = "id")UUID id){
 		return ResponseEntity.status(HttpStatus.CREATED).body(transactionService.refund(id));
 	}
 	@PutMapping("/{id}")
+	@Operation(description = "Atualiza transação")
 	ResponseEntity<Transaction> updateTransaction(@PathVariable(name = "id")UUID id,
 			@RequestBody TransactionDto transactionDto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(transactionService.updateTransaction(id, transactionDto));
 	}
 	@DeleteMapping("/{id}")
+	@Operation(description = "Deleta transação")
 	ResponseEntity<Transaction> deleteTransaction(@PathVariable(name = "id")UUID id){
 		transactionService.deleteTransaction(id);
 		return ResponseEntity.noContent().build();
